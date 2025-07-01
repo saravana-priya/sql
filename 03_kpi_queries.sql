@@ -70,3 +70,33 @@ SELECT
 FROM mydatapipelineproject.dpl.sales_denormalized
 GROUP BY country
 ORDER BY total_revenue DESC;
+
+--8. Revenue by Distance from a Central Location (e.g., New York)
+-- Define the reference point: New York City (lat: 40.7128, lon: -74.0060)
+DECLARE nyc_location GEOGRAPHY DEFAULT ST_GEOGPOINT(-74.0060, 40.7128);
+
+-- Calculate distance and group sales by distance band
+WITH sales_with_distance AS (
+  SELECT
+    s.order_id,
+    s.customer_id,
+    s.sale_price,
+    u.user_geom,
+    ST_DISTANCE(u.user_geom, nyc_location) / 1000 AS distance_km  -- Convert meters to km
+  FROM `mydatapipelineproject.dpl.sales_denormalized` s
+  JOIN `bigquery-public-data.thelook_ecommerce.users` u
+    ON s.customer_id = u.id
+  WHERE u.user_geom IS NOT NULL
+)
+SELECT
+  CASE
+    WHEN distance_km <= 500 THEN '0-500 km'
+    WHEN distance_km <= 1000 THEN '500-1000 km'
+    WHEN distance_km <= 2000 THEN '1000-2000 km'
+    ELSE '2000+ km'
+  END AS distance_band,
+  COUNT(DISTINCT order_id) AS total_orders,
+  ROUND(SUM(sale_price), 2) AS total_revenue
+FROM sales_with_distance
+GROUP BY distance_band
+ORDER BY distance_band;
