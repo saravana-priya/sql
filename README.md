@@ -1,6 +1,6 @@
 # 📊 E-commerce Sales Analytics with BigQuery
 
-An end-to-end SQL-based data analytics project using Google BigQuery, built on the `thelook_ecommerce` public dataset. This project demonstrates core data engineering and analytics skills — from raw data exploration to dimensional modeling, KPI reporting, geospatial analysis, and window function logic.
+An end-to-end SQL-based data analytics project using Google BigQuery, built on the `thelook_ecommerce` public dataset. This project demonstrates core data engineering and analytics skills — from raw data exploration to dimensional modeling, KPI reporting, geospatial analysis, window function logic, and Slowly Changing Dimension (SCD) handling.
 
 ---
 
@@ -8,6 +8,7 @@ An end-to-end SQL-based data analytics project using Google BigQuery, built on t
 - **Google BigQuery** (SQL)
 - **BigQuery Public Dataset**: `bigquery-public-data.thelook_ecommerce`
 - **Window Functions**, **CTEs**, **Geospatial SQL**
+- **SCD Type 2 Handling with MERGE Statements**
 
 ---
 
@@ -19,6 +20,7 @@ An end-to-end SQL-based data analytics project using Google BigQuery, built on t
 ├── 02_transformation_queries.sql      -- Cleaned tables, star schema, and denormalized table
 ├── 03_kpi_queries.sql                 -- Business KPIs using clean schema
 ├── 04_window_and_yoy_queries.sql      -- Ranking, ROW_NUMBER, LAG/LEAD (YoY comparison)
+├── 05_scd_type_2_updates.sql          -- SCD Type 2 logic for dimension versioning
 └── README.md                          -- Project overview
 ```
 
@@ -50,6 +52,11 @@ An end-to-end SQL-based data analytics project using Google BigQuery, built on t
 - `ROW_NUMBER()` for first transaction each day
 - `LAG()` and `LEAD()` for year-over-year sales comparison
 
+### ✅ 6. Slowly Changing Dimensions (SCD Type 2)
+- Implemented SCD Type 2 on product dimension to track historical changes
+- Used `MERGE` statements and `valid_from`, `valid_to`, `is_current` fields
+- Enables historical versioning of data for accurate time-based reporting
+
 ---
 
 ## 📊 Example KPIs Generated
@@ -76,6 +83,7 @@ An end-to-end SQL-based data analytics project using Google BigQuery, built on t
 
 ## 📌 Notes
 - This project is designed to highlight practical, job-ready SQL skills.
+- Includes realistic enterprise data warehousing practices like SCD Type 2.
 - Easily adaptable to any other retail or sales dataset.
 - Ideal for GCP Data Engineers, Analysts, and BI professionals.
 
@@ -85,6 +93,6 @@ An end-to-end SQL-based data analytics project using Google BigQuery, built on t
 
 **Saravana Priya**  
 *Google Certified Professional Data Engineer*  
-📍 India | 💼 Open to GCP roles in Europe  
-🔗 [LinkedIn](www.linkedin.com/in/saravana-priya)  
+📍 India | 💼 Open to GCP roles  
+🔗 [LinkedIn](https://www.linkedin.com/in/saravana-priya)  
 🌐 [GitHub](https://github.com/saravana-priya)
